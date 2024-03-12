@@ -21,7 +21,9 @@
 
 def question2():
     answerDiscount = 0.9
-    answerNoise = 0.2
+    """ answerNoise = 0.2 """
+    # set noise to 0, reducing massively negative incentives resulting from possible transitions to pitfall states
+    answerNoise = 0.0 
     return answerDiscount, answerNoise
 
 def question3a():
