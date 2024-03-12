@@ -1,0 +1,32 @@
+
+######################
+# Supplemental Questions #
+######################
+
+
+Answer the supplemental questions here! Make sure you follow the format if it is asked
+Q1#######################
+QS1.1: For computeActionFromValues(state), I interpreted it as a component of the value iteration function given at the beginning of question 1. In particular, I interpreted it as the max of the function, which finds the action with the highest Q-value out of all possible actions for a given state. With this in mind, my implementation gets all possible actions from the state (disregarding terminal states) before using Python's 'max' function to find the action with the highest Q-value. These Q-values are taken from the results of calling our other implemented method (computeQValueFromValues) and applying those results exclusively within the context of this method call using lambda. The best (or highest Q-value) action from these actions is chosen as the return value given to the calling function.
+
+QS1.2: As for computeQValueFromValues(state, action), this method is the other component of the value iteration function used in question 1, that being the calculation and aggregation of the values of all possible outcomes for an action in a given state. My implementation starts with initializing a Q-value before iterating through all possible outcomes of taking the specified action, adding the product of each outcome's value and possibility of occurring to the final Q-value for the action. When this process is complete, the final aggregated Q-value of taking the action is returned to the calling function.
+
+Q3#######################
+
+QS3.1: 
+Q5#######################
+
+QS5.1:
+
+QS5.2 [optional]:
+
+Q6#######################
+QS6.1:
+QS6.2 [optional]:
+
+
+Q7#######################
+QS7.1
+
+
+
+
