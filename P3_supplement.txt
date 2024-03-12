@@ -12,7 +12,18 @@ QS1.2: As for computeQValueFromValues(state, action), this method is the other c
 
 Q3#######################
 
-QS3.1: 
+QS3.1: For each policy of question 3, I assigned each corresponding function in analysis.py appropriate values for the discount, noise, and living reward of the policy.
+
+For policy 1 (Prefer the close exit (+1), risking the cliff (-10)), I chose the respective values of 0.9, 0.0, and -4.0. I chose these values because they incentivize pursuing the closest exit possible without regard for the risk of other possible transitions.
+
+For policy 2 (Prefer the close exit (+1), but avoiding the cliff (-10)), I chose the respective values of 0.4, 0.2, and -3.0. I chose these values because, while they heavily incentize acting rashly to reach the closest action ASAP, they still provide some consideration of risky moves that ultimately steers the agent away from cliffs.
+
+For policy 3 (Prefer the distant exit (+10), risking the cliff (-10)), I chose the respective values of 0.9, 0.0, and 0.0. I chose these values because they incentivize taking a bit more time to reach farther exits without much regard for risky moves while still providing some small pressure to keep moving.
+
+For policy 4 (Prefer the distant exit (+10), avoiding the cliff (-10)), I chose the respective values of 0.9, 0.2, and 0.0. I chose these values because they perform similarly to policy 4 while incorporating some consideration of risky moves that disincentivizes staying near cliffs.
+
+For policy 5 (Avoid both exits and the cliff (so an episode should never terminate)), I chose the respective values of 0.0, 0.2, and 1.0. I chose these values because there should be no incentive for pursuing exit rewards, and instead there should be a positive incentive for staying alive as long as possible while still disincentivizing staying near cliffs.
+
 Q5#######################
 
 QS5.1:

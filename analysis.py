@@ -26,38 +26,53 @@ def question2():
     answerNoise = 0.0 
     return answerDiscount, answerNoise
 
+"""
+    Prefer the close exit (+1), risking the cliff (-10)
+"""
 def question3a():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.9 # slightly incentivize pursuing rewards sooner
+    answerNoise = 0.0 # provide no incentive to avoid risky behavior
+    answerLivingReward = -4.0 # massively disincentivize chasing farther exits or playing for a longer period of time
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+"""
+    Prefer the close exit (+1), but avoiding the cliff (-10)
+"""
 def question3b():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.4 # heavily encourage pursuing rewards ASAP
+    answerNoise = 0.2 # somewhat disincentivize risky moves
+    answerLivingReward = -3.0 # heavily disincentivize chasing farther exits or playing for a longer period of time
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+"""
+    Prefer the distant exit (+10), risking the cliff (-10)
+"""
 def question3c():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.9 # slightly incentivize pursuing rewards sooner
+    answerNoise = 0.0 # provide no incentive to avoid risky behavior
+    answerLivingReward = 0.0 # provide no incentive to chase closer exits or minimize playtime
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+"""
+    Prefer the distant exit (+10), avoiding the cliff (-10)
+"""
 def question3d():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.9 # slightly incentivize pursuing rewards sooner
+    answerNoise = 0.2 # somewhat disincentivize risky moves
+    answerLivingReward = 0.0 # provide no incentive to chase closer exits or minimize playtime
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+"""
+    Avoid both exits and the cliff (so an episode should never terminate)
+"""
 def question3e():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.0 # completely evaporate any incentive to pursue an exit
+    answerNoise = 0.2 # provide no incentive to avoid risky behavior
+    answerLivingReward = 1.0 # provide incentive to simply stay alive for as long as possible
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
