@@ -62,6 +62,23 @@ class ValueIterationAgent(ValueEstimationAgent):
     def runValueIteration(self):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
+        """
+            this method handles the recursive iteration of values for all states within
+            the MDP until each state reflects its optimal expected utility
+        """
+        # loop over each value iteration without regard for the iteration itself as a variable
+        for _ in range(self.iterations): 
+            newval = util.Counter() # temp for updated values
+            for state in self.mdp.getStates(): # iterate through each possible state of the current iteration
+                if not self.mdp.isTerminal(state): # check if the state is terminal
+                    # if state isn't terminal, compute max utility (qval) of all actions in the current state
+                    # qval is computed from the qvals of all state-action pairs
+                    # actions of state-actions pairs are retrieved directly from the state itself
+                    maxval = max([self.computeQValueFromValues(state, action) for action in \
+                    self.mdp.getPossibleActions(state)])
+                    # max utility of state is updated accordingly before visiting next state in iteration
+                    newval[state] = maxval
+            self.values = newval # all states are updated to reflect results of current iteration
 
 
     def getValue(self, state):
@@ -77,7 +94,25 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        """
+            this method finds the qval of an action within a given state, and is used by runValueIteration
+            for that exact purpose
+
+            essentially fulfills the qval portion of the value iteration formula, representing the values
+            of all possible actions that could occur from a given state with respect to factors like 
+            irrationality and immediate reward
+        """
+        qval = 0 # initialize qval of given action in state
+        # iterate over each possible action in the given state (state-action pair)
+        for nextState, prob in self.mdp.getTransitionStatesAndProbs(state, action):
+            # get imm. reward of performing given action
+            reward = self.mdp.getReward(state, action, nextState)
+            # find product of transition prob. and sum of imm. reward and discounted value of resulting state
+            # add result to aggregation of qvals of all possible actions from given state
+            # essentially a functional implementation of qval formula 
+            qval += prob * (reward + self.discount * self.values[nextState])
+        return qval # return qval of state-action pair to calling method
+        # util.raiseNotDefined()
 
     def computeActionFromValues(self, state):
         """
@@ -89,7 +124,23 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        """
+            this method finds the best action for a given state to take with respect to the most
+            recent value estimates
+
+            essentially fulfills the max portion of the value iteration formula, representing the
+            choice of the best value associated with an action within the given state and thus
+            selecting that action as the preferred course to take in the set of current value estimates
+        """
+        # if the given state is terminal, there's nothing to be done here
+        if self.mdp.isTerminal(state):
+            return None
+        # find all possible actions that can be taken from given state
+        actions = self.mdp.getPossibleActions(state)
+        # find action with highest qval and assign it as best action for given state
+        best_action = max(actions, key=lambda action: self.computeQValueFromValues(state, action))
+        return best_action # return best possible action for given state to calling method
+        # util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
