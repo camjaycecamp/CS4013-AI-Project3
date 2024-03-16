@@ -43,6 +43,8 @@ class QLearningAgent(ReinforcementAgent):
         ReinforcementAgent.__init__(self, **args)
 
         "*** YOUR CODE HERE ***"
+        self.values = util.Counter()  
+
 
     def getQValue(self, state, action):
         """
@@ -51,7 +53,7 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.values[(state, action)]
 
 
     def computeValueFromQValues(self, state):
@@ -62,7 +64,14 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # No legal actions
+        if len(self.getLegalActions(state)) == 0:
+            return 0.0
+        Qvalues = []
+        # get max Q Value from all legal actions
+        for action in self.getLegalActions(state):
+            Qvalues.append(self.getQValue(state, action))
+        return max(Qvalues)
 
     def computeActionFromQValues(self, state):
         """
@@ -71,8 +80,29 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # Same terminal check as computeValueFromQValues
+        if len(self.getLegalActions(state)) == 0:
+            return None
 
+        best_value = -9999
+        best_actions = []
+        """
+          Compare each action's Q value from each legal action.
+          Ensure that we keep track of any Q value's who also
+          are the best, and equal to the current best
+        """
+        for action in self.getLegalActions(state):
+            current_value = self.getQValue(state, action)
+            if current_value > best_value:
+                best_value = current_value
+                # Reset action with the new best action
+                best_actions = [action]
+            # Add the action for chance at the RNG Casino in the return statement :D
+            elif current_value == best_value:
+                best_actions.append(action)
+
+        return random.choice(best_actions) if best_actions else None
+    
     def getAction(self, state):
         """
           Compute the action to take in the current state.  With
@@ -87,9 +117,17 @@ class QLearningAgent(ReinforcementAgent):
         # Pick Action
         legalActions = self.getLegalActions(state)
         action = None
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
-
+        p = self.epsilon
+        # Same as before, terminal check.
+        if len(self.getLegalActions(state)) == 0:
+            return None
+        
+        # RNG Check, optimal or sub optimal
+        if util.flipCoin(p):
+          action = random.choice(legalActions)
+          return action
+        
+        action = self.computeActionFromQValues(state)
         return action
 
     def update(self, state, action, nextState, reward):
@@ -102,7 +140,9 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        current = self.getQValue(state, action)
+        next_update = (1 - self.alpha ) * current + self.alpha * (reward + self.discount * self.computeValueFromQValues(nextState))
+        self.values[(state, action)] = next_update
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
@@ -172,7 +212,6 @@ class ApproximateQAgent(PacmanQAgent):
            Should update your weights based on transition
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
 
     def final(self, state):
         "Called at the end of each game."

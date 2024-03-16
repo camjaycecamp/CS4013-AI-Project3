@@ -26,17 +26,19 @@ For policy 5 (Avoid both exits and the cliff (so an episode should never termina
 
 Q5#######################
 
-QS5.1:
+QS5.1: My implementation is pretty simple, computeQValueFromValues is just getting the max from the list of actions using a for loop. computeActionFromValues just iterates over the list of actions and their values then keeps a running list of the best actions to take depending on their value. Best value is always updated, and if a new best value is determined, the old best value and action is deleted from the list. If we have a tie, the action gets added then we randomly select one of the best actions to send to the agent.
 
-QS5.2 [optional]:
-
+QS5.2 [optional]: https://github.com/camjaycecamp/CS4013-AI-Project3/blob/main/Screenshot%202024-03-16%20102809.png
+The main differences you can see is with the ending policy you recieve. I ran it a couple of times and got all sorts of variations. With noise I can see a world that can lead to a better answer than the one you currently have faster, but it can also lead to a worse ending result as sometimes you just get really bad luck on the paths that the agent will take.
 Q6#######################
-QS6.1:
-QS6.2 [optional]:
+QS6.1: The implementation on this is also pretty simple. We flip a coin who's value is determined by epsilon, which is always under 1 meaning we can just use that as our boolean value. Depending on the outcome of util.flipCoin(p) we either take a random potentially suboptimal path in the legalActions list, or we compute the optimal action from our computeActionFromValues() function from earlier.
+QS6.2 [optional]: https://github.com/camjaycecamp/CS4013-AI-Project3/blob/main/Screenshot%202024-03-16%20101624.png
 
 
 Q7#######################
-QS7.1
+QS7.1 After testing it with different values, high and low, equal, and all sorts, I don't believe it is possible. There has to be a lot of randomness at the start for the agent to be able to explore very
+quickly and try to find where the rewards are, but then it needs to learn and narrow down its search equally as fast. I could not find any values that satisfied this enough. Perhaps if you changed epsilon to be
+able to be variable depending on how long you've stayed alive, then maybe, but for our case I just don't see any two values that work consistently.
 
 
 
